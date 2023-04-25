@@ -18,6 +18,9 @@
 #define S_LONG 2
 #define S_SHORT 1
 
+#define SHORT 1
+#define LONG 2
+
 /**
  * struct fmt - Struct op
  *
@@ -38,6 +41,19 @@ struct fmt
  * @fm_t: The function associated.
  */
 typedef struct fmt fmt_t;
+
+/**
+ * struct buffer_s - A new type defining a buffer struct.
+ * @buffer: A pointer to a character array.
+ * @start: A pointer to the start of buffer.
+ * @len: The length of the string stored in buffer.
+ */
+typedef struct buffer_s
+{
+	char *buffer;
+	char *start;
+	unsigned int len;
+} buffer_t;
 
 int _printf(const char *format, ...);
 int handle_print(const char *fmt, int *i,
