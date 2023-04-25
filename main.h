@@ -52,6 +52,20 @@ typedef struct flag_s
 } flag_t;
 
 /**
+ * struct buffer_s - A new type defining a buffer struct.
+ * @buffer: A pointer to a character array.
+ * @start: A pointer to the start of buffer.
+ * @len: The length of the string stored in buffer.
+ */
+typedef struct buffer_s
+{
+	char *buffer;
+	char *start;
+	unsigned int len;
+} buffer_t;
+
+
+/**
  * struct converter_s - A new type defining a converter struct.
  * @specifier: A character representing a conversion specifier.
  * @func: A pointer to a conversion function corresponding to specifier.
@@ -70,19 +84,6 @@ typedef struct converter_s
  * @fm_t: The function associated.
  */
 typedef struct fmt fmt_t;
-
-/**
- * struct buffer_s - A new type defining a buffer struct.
- * @buffer: A pointer to a character array.
- * @start: A pointer to the start of buffer.
- * @len: The length of the string stored in buffer.
- */
-typedef struct buffer_s
-{
-	char *buffer;
-	char *start;
-	unsigned int len;
-} buffer_t;
 
 int _printf(const char *format, ...);
 int handle_print(const char *fmt, int *i,
