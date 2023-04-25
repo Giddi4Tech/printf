@@ -52,6 +52,18 @@ typedef struct flag_s
 } flag_t;
 
 /**
+ * struct converter_s - A new type defining a converter struct.
+ * @specifier: A character representing a conversion specifier.
+ * @func: A pointer to a conversion function corresponding to specifier.
+ */
+typedef struct converter_s
+{
+	unsigned char specifier;
+	unsigned int (*func)(va_list, buffer_t *,
+			unsigned char, int, int, unsigned char);
+} converter_t;
+
+/**
  * typedef struct fmt fmt_t - Struct op
  *
  * @fmt: The format.
@@ -143,6 +155,47 @@ char buffer[],
 int is_printable(char);
 int append_hexa_code(char, char[], int);
 int is_digit(char);
+
+unsigned int print_width(buffer_t *output, unsigned int printed,
+		unsigned char flags, int wid);
+unsigned int print_string_width(buffer_t *output,
+		unsigned char flags, int wid, int prec, int size);
+unsigned int print_neg_width(buffer_t *output, unsigned int printed,
+		unsigned char flags, int wid);
+
+unsigned char handle_flags(const char *flags, char *index);
+unsigned char handle_length(const char *modifier, char *index);
+int handle_width(va_list args, const char *modifier, char *index);
+int handle_precision(va_list args, const char *modifier, char *index);
+unsigned int (*handle_specifiers(const char *specifier))(va_list, buffer_t *,
+		unsigned char, int, int, unsigned char);
+
+unsigned int convert_c(va_list args, buffer_t *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
+unsigned int convert_s(va_list args, buffer_t *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
+unsigned int convert_di(va_list args, buffer_t *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
+unsigned int convert_percent(va_list args, buffer_t *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
+unsigned int convert_b(va_list args, buffer_t *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
+unsigned int convert_u(va_list args, buffer_t *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
+unsigned int convert_o(va_list args, buffer_t *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
+unsigned int convert_x(va_list args, buffer_t *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
+unsigned int convert_X(va_list args, buffer_t *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
+unsigned int convert_S(va_list args, buffer_t *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
+unsigned int convert_p(va_list args, buffer_t *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
+unsigned int convert_r(va_list args, buffer_t *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
+unsigned int convert_R(va_list args, buffer_t *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
 
 long int convert_size_number(long int num, int size);
 long int convert_size_unsgnd(unsigned long int num, int size);
