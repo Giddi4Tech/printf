@@ -3,6 +3,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <limits.h>
 
 #define UNUSED(x) (void)(x)
 #define BUFF_SIZE 1024
@@ -12,7 +13,13 @@
 #define F_PLUS 2
 #define F_ZERO 4
 #define F_HASH 8
+#define F_NEG 16
 #define F_SPACE 16
+#define PLUS_FLAG (flags & 1)
+#define SPACE_FLAG ((flags >> 1) & 1)
+#define HASH_FLAG ((flags >> 2) & 1)
+#define ZERO_FLAG ((flags >> 3) & 1)
+#define NEG_FLAG ((flags >> 4) & 1)
 
 /* SIZES */
 #define S_LONG 2
@@ -33,6 +40,16 @@ struct fmt
 	int (*fn)(va_list, char[], int, int, int, int);
 };
 
+/**
+ * struct flag_s - A new type defining a flags struct.
+ * @flag: A character representing a flag.
+ * @value: The integer value of the flag.
+ */
+typedef struct flag_s
+{
+	unsigned char flag;
+	unsigned char value;
+} flag_t;
 
 /**
  * typedef struct fmt fmt_t - Struct op
@@ -130,5 +147,11 @@ int is_digit(char);
 long int convert_size_number(long int num, int size);
 long int convert_size_unsgnd(unsigned long int num, int size);
 buffer_t *init_buffer(void);
+void free_buffer(buffer_t *output);
+unsigned int _memcpy(buffer_t *output, const char *src, unsigned int n);
+unsigned int convert_sbase(buffer_t *output, long int num, char *base,
+		unsigned char flags, int wid, int prec);
+unsigned int convert_ubase(buffer_t *output, unsigned long int num, char *base,
+		unsigned char flags, int wid, int prec);
 
 #endif /* MAIN_H */
